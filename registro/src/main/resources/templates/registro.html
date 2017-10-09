@@ -2894,8 +2894,11 @@ h1 span {
 		//]]>
 	</script>
 
+	<link rel='stylesheet' href='../static/css/registro.css' type='text/css'/>
 	<link rel='stylesheet' href='../static/css/jquery-ui.min.css' type='text/css'/>
 	<link rel='stylesheet' href='../static/css/jquery-ui.structure.min.css' type='text/css'/>
+	<link rel='stylesheet' href='../static/css/jquery.datetimepicker.css' type='text/css'/>
+	
 	<meta name="generator"
 		content="Powered by Slider Revolution 5.3.0.2 - responsive, Mobile-Friendly Slider Plugin for WordPress with comfortable drag and drop interface."></meta>
 
@@ -3039,7 +3042,8 @@ h1 span {
 											<div class="screen-reader-response"></div>
 
 
-											<form name="formMain" action="#" th:action="@{/registro}" method="post" id="formMain" th:object="${part}" styleClass="wpcf7-form">
+											<form name="formMain" action="#" th:action="@{/registro}" method="post" th:object="${part}" 
+													styleClass="wpcf7-form" id="formRegistro">
 												<div id="tabs">
 												 <ul>
 												    <li><a href="#tabs-1">Datos generales</a></li>
@@ -3053,18 +3057,19 @@ h1 span {
 														<div class="column one-third">
 															Nombre(s)*:
 															<span class="wpcf7-form-control-wrap your-name">
-																<input type="text" th:field="*{nombres}"
-																	size="40" class="wpcf7-form-control wpcf7-text" aria-invalid="false" placeholder="Nombre"/>
-																<span th:if="${#fields.hasErrors('nombres')}" th:errors="*{nombres}"></span>
+																<input type="text" th:field="*{nombres}" id="nombres" name="nombres"
+																	size="40" class="wpcf7-form-control wpcf7-text" aria-invalid="false" placeholder="Nombre" required="true"/>
+																<!--span th:if="${#fields.hasErrors('nombres')}" th:errors="*{nombres}" class="validation-error"></span>
+																<div class="help-block with-errors">Indique nombre</div-->
 															</span>
 														</div>
 														<div class="column one-third">
 															Apellido paterno*: 
 															<span class="wpcf7-form-control-wrap your-name">
-																<input type="text" th:field="*{apellidoPaterno}"
+																<input type="text" th:field="*{apellidoPaterno}" id="apellidoPaterno" name="apellidoPaterno"
 																	size="40" class="wpcf7-form-control wpcf7-text" aria-invalid="false" placeholder="Apellido paterno"/>
 															</span>
-															<span th:if="${#fields.hasErrors('apellidoPaterno')}" th:errors="*{apellidoPaterno}"></span>
+															<span th:if="${#fields.hasErrors('apellidoPaterno')}" th:errors="*{apellidoPaterno}" class="validation-error"></span>
 														</div>
 														<div class="column one-third">
 															Apellido materno*:
@@ -3072,49 +3077,30 @@ h1 span {
 																<input type="text" th:field="*{apellidoMaterno}"
 																	size="40" class="wpcf7-form-control wpcf7-text" aria-invalid="false" placeholder="Apellido materno"/>
 															</span>
-															<span th:if="${#fields.hasErrors('apellidoMaterno')}" th:errors="*{apellidoMaterno}"></span>
+															<span th:if="${#fields.hasErrors('apellidoMaterno')}" th:errors="*{apellidoMaterno}" class="validation-error"></span>
 														</div>
 													</div>
 													<div class="items_group clearfix">
 														<div class="column one-third">
 															Fecha de nacimiento (dd-mm-aaaa)*:
 															<span class="wpcf7-form-control-wrap your-name">
-
-																<input type="text" id="date-field"/>
-																<input type="text" class="calendar-field"/>
-
-																<input type="text" id="datepicker" th:field="*{fechaNacimiento}"/>
-<a
-	class="ai1ec-minical-trigger ai1ec-btn ai1ec-btn-sm ai1ec-btn-default
-    ai1ec-tooltip-trigger"
-			data-date="6/10/2017"
-			data-date-format="d/m/yyyy"
-			data-date-weekstart="1"
-			href="#"
-			data-href="http://strategacrea.mx/calendar/action~agenda/exact_date~__DATE__/"
-			data-lang="es-ES"
-		data-type="json"
-	title="Elegir una fecha usando el calendario"
-	>
-	<i class="ai1ec-fa ai1ec-fa-calendar-o ai1ec-fa-fw ai1ec-fa-lg"></i>
-  <span class="ai1ec-calendar-title">octubre 2017</span>
-  <span class="ai1ec-calendar-title-short">Oct 2017</span>
-</a>
+																<input type="text" id="datepickerFechaNac" th:field="*{fechaNacimiento}"/>
 															</span>
+															<!--span th:if="${#fields.hasErrors('fechaNacimiento')}" th:errors="*{fechaNacimiento}" class="validation-error"></span-->
 														</div>
 														<div class="column one-third">
 															Edad (años): 
 															<span class="wpcf7-form-control-wrap your-name">
-																<input type="text" th:field="*{edad}"
+																<input type="text" th:field="*{edad}" id="edad"
 																	size="40" class="wpcf7-form-control wpcf7-text" aria-invalid="false" disabled="true"/>
 															</span>
 														</div>
 														<div class="column one-third">
-															Tipo participante*:
+															Tipo participante:
 															<span class="wpcf7-form-control-wrap your-name">
-																<select th:field="*{idTipoParticipante}" disabled="true">
-              														<option th:each="type : ${tiposParticipante}" th:value="${type.idTipoParticipante}" th:text="${type.descripcion}"></option>
-            													</select>
+																<select th:field="*{idTipoParticipante}" id="tipoParticipante" disabled="true">
+              														<option th:each="tp : ${tiposParticipantes}" th:value="${tp.idTipoParticipante}" th:text="${tp.descripcion}"></option>
+            													</select>           													
 															</span>
 														</div>													
 													</div>													
@@ -3125,7 +3111,7 @@ h1 span {
 																<input type="text" th:field="*{apodo}"
 																	size="40" class="wpcf7-form-control wpcf7-text" aria-invalid="false" placeholder="Nombre gafete"/>
 															</span>
-															<span th:if="${#fields.hasErrors('apodo')}" th:errors="*{apodo}"></span>
+															<span th:if="${#fields.hasErrors('apodo')}" th:errors="*{apodo}" class="validation-error"></span>
 														</div>
 														<div class="column one-third">
 															Sexo*:
@@ -3142,7 +3128,7 @@ h1 span {
 																<input type="text" th:field="*{telCasa}"
 																	size="40" class="wpcf7-form-control wpcf7-text" aria-invalid="false" placeholder="Teléfono casa"/>
 															</span>
-															<span th:if="${#fields.hasErrors('telCasa')}" th:errors="*{telCasa}"></span>
+															<span th:if="${#fields.hasErrors('telCasa')}" th:errors="*{telCasa}" class="validation-error"></span>
 														</div>
 													</div>
 													<div class="items_group clearfix">
@@ -3152,7 +3138,7 @@ h1 span {
 																<input type="text" th:field="*{telCelular}"
 																	size="40" class="wpcf7-form-control wpcf7-text" aria-invalid="false" placeholder="Teléfono celular"/>
 															</span>
-															<span th:if="${#fields.hasErrors('telCelular')}" th:errors="*{telCelular}"></span>
+															<span th:if="${#fields.hasErrors('telCelular')}" th:errors="*{telCelular}" class="validation-error"></span>
 														</div>
 														<div class="column one-third">
 															Correo electrónico*:
@@ -3160,26 +3146,104 @@ h1 span {
 																<input type="text" th:field="*{correo}"
 																	size="40" class="wpcf7-form-control wpcf7-text" aria-invalid="false" placeholder="Correo electrónico"/>
 															</span>
-															<span th:if="${#fields.hasErrors('correo')}" th:errors="*{correo}"></span>
+															<span th:if="${#fields.hasErrors('correo')}" th:errors="*{correo}" class="validation-error"></span>
 														</div>
 														<div class="column one-third">
 															Sede*:
 															<span class="wpcf7-form-control-wrap your-name">
-																<select th:field="*{idSede}">
+																<select th:field="*{idSede}" id="sede">
               														<option th:each="sede : ${sedes}" th:value="${sede.idSede}" th:text="${sede.descripcion}"></option>
             													</select>
 															</span>
+															<span th:if="${#fields.hasErrors('idSede')}" th:errors="*{idSede}" class="validation-error"></span>
 
 														</div>
 													</div>
+													<button type="button" id="changeTab2" class="btn btn-primary">Siguiente</button>
 													<a href="#tabs-2">Siguiente</a>
 												  </div>
 												  <div id="tabs-2">
-												    <p>Morbi tincidunt, dui sit amet facilisis feugiat, odio metus gravida ante, ut pharetra massa metus id nunc. Duis scelerisque molestie turpis. Sed fringilla, massa eget luctus malesuada, metus eros molestie lectus, ut tempus eros massa ut dolor. Aenean aliquet fringilla sem. Suspendisse sed ligula in ligula suscipit aliquam. Praesent in eros vestibulum mi adipiscing adipiscing. Morbi facilisis. Curabitur ornare consequat nunc. Aenean vel metus. Ut posuere viverra nulla. Aliquam erat volutpat. Pellentesque convallis. Maecenas feugiat, tellus pellentesque pretium posuere, felis lorem euismod felis, eu ornare leo nisi vel felis. Mauris consectetur tortor et purus.</p>
+													<div class="items_group clearfix">
+														<div class="column one-third">
+															Calle y Número Exterior*:
+															<span class="wpcf7-form-control-wrap your-name">
+																<input type="text" th:field="*{direcCalleNum}"
+																	size="40" class="wpcf7-form-control wpcf7-text" aria-invalid="false" placeholder="Calle y número exterior"/>
+																<span th:if="${#fields.hasErrors('direcCalleNum')}" th:errors="*{direcCalleNum}" class="validation-error"></span>
+															</span>
+														</div>
+														<div class="column one-third">
+															Número Interior: 
+															<span class="wpcf7-form-control-wrap your-name">
+																<input type="text" th:field="*{direcNumInt}"
+																	size="40" class="wpcf7-form-control wpcf7-text" aria-invalid="false" placeholder="Número interior"/>
+															</span>
+														</div>
+														<div class="column one-third">
+															Código Postal*:
+															<span class="wpcf7-form-control-wrap your-name">
+																<input type="text" th:field="*{direcCP}"
+																	size="40" class="wpcf7-form-control wpcf7-text" aria-invalid="false" placeholder="Código postal"/>
+															</span>
+															<span th:if="${#fields.hasErrors('direcCP')}" th:errors="*{direcCP}" class="validation-error"></span>
+														</div>
+													</div>
+													<div class="items_group clearfix">
+														<div class="column one-third">
+															Colonia*:
+															<span class="wpcf7-form-control-wrap your-name">
+																<input type="text" th:field="*{direcColonia}"
+																	size="40" class="wpcf7-form-control wpcf7-text" aria-invalid="false" placeholder="Colonia"/>
+																<span th:if="${#fields.hasErrors('direcColonia')}" th:errors="*{direcColonia}" class="validation-error"></span>
+															</span>
+														</div>
+														<div class="column one-third">
+															Ciudad y país*: 
+															<span class="wpcf7-form-control-wrap your-name">
+																<input type="text" th:field="*{direcCiudadPais}"
+																	size="40" class="wpcf7-form-control wpcf7-text" aria-invalid="false" placeholder="Ciudadd y país"/>
+															</span>
+															<span th:if="${#fields.hasErrors('direcCiudadPais')}" th:errors="*{direcCiudadPais}" class="validation-error"></span>
+														</div>
+														<div class="column one-third">
+															Fue invitado por alguien?*:
+															<span class="wpcf7-form-control-wrap your-name">
+																<input type="text" th:field="*{idParticipanteInvito}"
+																	size="40" class="wpcf7-form-control wpcf7-text" aria-invalid="false" placeholder="Indicar si fue invitado"/>
+															</span>
+															<span th:if="${#fields.hasErrors('idParticipanteInvito')}" th:errors="*{idParticipanteInvito}" class="validation-error"></span>
+														</div>
+													</div>
+													
 												  </div>
 												  <div id="tabs-3">
-												    <p>Mauris eleifend est et turpis. Duis id erat. Suspendisse potenti. Aliquam vulputate, pede vel vehicula accumsan, mi neque rutrum erat, eu congue orci lorem eget lorem. Vestibulum non ante. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Fusce sodales. Quisque eu urna vel enim commodo pellentesque. Praesent eu risus hendrerit ligula tempus pretium. Curabitur lorem enim, pretium nec, feugiat nec, luctus a, lacus.</p>
-												    <p>Duis cursus. Maecenas ligula eros, blandit nec, pharetra at, semper at, magna. Nullam ac lacus. Nulla facilisi. Praesent viverra justo vitae neque. Praesent blandit adipiscing velit. Suspendisse potenti. Donec mattis, pede vel pharetra blandit, magna ligula faucibus eros, id euismod lacus dolor eget odio. Nam scelerisque. Donec non libero sed nulla mattis commodo. Ut sagittis. Donec nisi lectus, feugiat porttitor, tempor ac, tempor vitae, pede. Aenean vehicula velit eu tellus interdum rutrum. Maecenas commodo. Pellentesque nec elit. Fusce in lacus. Vivamus a libero vitae lectus hendrerit hendrerit.</p>
+													<div class="items_group clearfix" id="div-laboral-adulto">
+														Adulto
+														<div class="column one-third">
+															Teléfono oficina:
+															<span class="wpcf7-form-control-wrap your-name">
+																<input type="text" th:field="*{telOficina}"
+																	size="40" class="wpcf7-form-control wpcf7-text" aria-invalid="false" placeholder="Teléfono oficina"/>
+															</span>
+															<span th:if="${#fields.hasErrors('telOficina')}" th:errors="*{telOficina}" class="validation-error"></span>
+														</div>
+														<div class="column one-third">
+															Ocupación:
+															<span class="wpcf7-form-control-wrap your-name">
+																<input type="text" th:field="*{ocupacion}"
+																	size="40" class="wpcf7-form-control wpcf7-text" aria-invalid="false" placeholder="Ocupación"/>
+															</span>
+															<span th:if="${#fields.hasErrors('ocupacion')}" th:errors="*{ocupacion}" class="validation-error"></span>
+														</div>
+														<div class="column one-third">
+															Último nivel de estudios:
+															<span class="wpcf7-form-control-wrap your-name">
+																<input type="text" th:field="*{ultNivelEstudios}"
+																	size="40" class="wpcf7-form-control wpcf7-text" aria-invalid="false" placeholder="Ocupación"/>
+															</span>
+															<span th:if="${#fields.hasErrors('ultNivelEstudios')}" th:errors="*{ultNivelEstudios}" class="validation-error"></span>
+														</div>
+													</div>
 												  </div>
 												  <div id="tabs-4">
 												    <p>Mauris eleifend est et turpis. Duis id erat. Suspendisse potenti. Aliquam vulputate, pede vel vehicula accumsan, mi neque rutrum erat, eu congue orci lorem eget lorem. Vestibulum non ante. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Fusce sodales. Quisque eu urna vel enim commodo pellentesque. Praesent eu risus hendrerit ligula tempus pretium. Curabitur lorem enim, pretium nec, feugiat nec, luctus a, lacus.</p>
@@ -3402,21 +3466,24 @@ h1 span {
 			src='../static/js/jquery-1.12.4.js'></script>
 		<script type='text/javascript'
 			src='../static/js/jquery-ui.min.js'></script>
+		<script type='text/javascript'
+			src='../static/js/jquery.datetimepicker.full.js'></script>
+		<script type='text/javascript'
+			src='../static/js/jquery.validate.js'></script>
+		<script type='text/javascript'
+			src='../static/js/registro.js'></script>
 		<script>
   			$( function() {
     			$( "#tabs" ).tabs();
-    			$( "#datepicker" ).datepicker();
-
+    			jQuery.datetimepicker.setLocale('es');
+    			$( "#datepickerFechaNac" ).datetimepicker({
+    				timepicker:false,
+    				format:'d-m-Y',
+    				formatDate:'d-m-Y',
+    				maxDate:0
+    			});
+    			cambiaFechaNac();
   			} );
-  			
-/*
-  			function add_e2_date_picker(){
-  			//jQuery UI date picker file
-  			wp_enqueue_script('jquery-ui-datepicker');
-  			//jQuery UI theme css file
-  			wp_enqueue_style('e2b-admin-ui-css','http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.0/themes/base/jquery-ui.css',false,"1.9.0",false);
-  			}
-  			add_action('wp_enqueue_scripts', 'add_e2_date_picker'); */
   </script>
 </body>
 </html>											

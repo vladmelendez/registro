@@ -6,32 +6,46 @@ import java.util.Date;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 public class ParticipanteTO {
 	public static final int ADULTO	= 1;
 	public static final int JUNIOR	= 2;
 	public static final int PEQUE	= 3;
 	
 	private Integer	idParticipante;
+//	@NotNull(message="Seleccione la sede")
 	private Integer	idSede;
 	private String	prefijoSede;
 	
-	@NotNull @Size(min=1, message="Se requiere nombre")
+//	@NotNull @Size(min=1, message="Indique nombre")
 	private String	nombres;
-	@NotNull @Size(min=1, message="Se requiere apellido paterno")
+//	@NotNull @Size(min=1, message="Indique apellido paterno")
 	private String	apellidoPaterno;
-	@NotNull @Size(min=1, message="Se requiere apellido materno")
+//	@NotNull @Size(min=1, message="Indique apellido materno")
 	private String	apellidoMaterno;
+//	@NotNull @Size(min=1, message="Indique nombre en gafete")
 	private String	apodo;
+//	@NotNull(message="Especifique su sexo")
 	private Integer sexo;
 	private String	edad;
+//	@DateTimeFormat(pattern = "dd-MM-yyyy")
+//	@NotNull(message="Indique fecha de nacimiento")
 	private Date	fechaNacimiento;
+//	@NotNull @Size(min=1, message="Indique calle y número exterior")
 	private String	direcCalleNum;
 	private String	direcNumInt;
+//	@NotNull @Size(min=1, message="Indique colonia")
 	private String	direcColonia;
+//	@NotNull @Size(min=1, message="Indique código postal")
 	private String	direcCP;
+//	@NotNull @Size(min=1, message="Indique ciudad y país")
 	private String	direcCiudadPais;
+//	@NotNull @Size(min=1, message="Indique correo electrónico")
 	private String	correo;
+//	@NotNull @Size(min=1, message="Indique teléfono celular")
 	private String	telCelular;
+//	@NotNull @Size(min=1, message="Indique teléfono de casa")
 	private String	telCasa;
 	private Integer	idTipoParticipante;
 	private String	gradoEscolar;
@@ -40,9 +54,13 @@ public class ParticipanteTO {
 	private String	celularPapa;
 	private String	nombreCompletoMama;
 	private String	celularMama;
+//	@NotNull @Size(min=1, message="Indique teléfono oficina")
 	private String	telOficina;
+//	@NotNull @Size(min=1, message="Indique ocupación")
 	private String	ocupacion;
+//	@NotNull @Size(min=1, message="Indique último nivel de estudios")
 	private String	ultNivelEstudios;
+//	@NotNull(message="Especifique si fue invitado por alguien")
 	private Integer	idParticipanteInvito;
 	private String	token;
 	private Integer	idTipoCurso;

@@ -1,32 +1,30 @@
 package com.stratega.controller;
 
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.ViewResolver;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-import org.thymeleaf.spring4.SpringTemplateEngine;
-import org.thymeleaf.spring4.view.ThymeleafViewResolver;
-import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+
+import com.stratega.service.CatalogoService;
 import com.stratega.to.ParticipanteTO;
 
-import javax.servlet.http.HttpServletRequest;
+
 import javax.validation.Valid;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Description;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-//@RestController
 public class RegistroController extends WebMvcConfigurerAdapter {
+	private static final Log logger = LogFactory.getLog(RegistroController.class);
+	@Autowired
+    private CatalogoService catalogoService;
 	
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
@@ -86,22 +84,28 @@ System.out.println("Root page");
 
     @GetMapping("/registro")
     public String registro(Model model) {
-System.out.println("Register page");
 		model.addAttribute("part", new ParticipanteTO());
+		//List<TipoParticipanteTO> tiposParticipantes = ;
+		model.addAttribute("tiposParticipantes", catalogoService.cargaTiposParticipante());
+		//List<SedeTO> sedes = ;
+		model.addAttribute("sedes", catalogoService.cargaSedes());
         return "registro";
     }
 
     @PostMapping("/registro")
     public String registroSubmit(@Valid @ModelAttribute("part") ParticipanteTO part,
-    		BindingResult bindingResult
+    		BindingResult bindingResult, Model model
             ) {
 //HttpServletRequest request, Model model
-System.out.println("Register submit nom: " + part.getNombres() + " apell pat: " + part.getApellidoPaterno() + " apell mat: " + part.getApellidoMaterno() + " error: " + bindingResult.hasErrors());
-		if (bindingResult.hasErrors()) {
-			System.out.println("Errores "+ bindingResult.getErrorCount());
+logger.debug("Register submit nom: " + part.getNombres() + " apell pat: " + part.getApellidoPaterno() + " apell mat: " + part.getApellidoMaterno() + " error: " + bindingResult.hasErrors());
+/*		if (bindingResult.hasErrors()) {
+			model.addAttribute("tiposParticipantes", catalogoService.cargaTiposParticipante());
+			model.addAttribute("sedes", catalogoService.cargaSedes());
+logger.debug("registroSubmit() Errores "+ bindingResult.getErrorCount());
+			//System.out.println("Errores "+ bindingResult.getErrorCount());
 			return "registro";
-		}
-System.out.println("Todo OK");
+		}*/
+
         return "registro";
     }
 }
